@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Учет телевизоров</title>
+</head>
+<body>
+    <h2>Загрузка изображения для учёта телевизоров</h2>
+    <input type="file" id="imageInput">
+    <button onclick="upload()">Загрузить и обработать</button>
+    <p id="count"></p>
+    <br>
+    <img id="output" src="" width="600">
+
+    <script>
+        async function upload() {
+            const file = document.getElementById('imageInput').files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const response = await fetch('/process', { method: 'POST', body: formData });
+            const data = await response.json();
+
+            document.getElementById('output').src = '/result?' + new Date().getTime();
+            document.getElementById('count').innerText = 'Обнаружено телевизоров: ' + data.count;
+        }
+    </script>
+</body>
+</html>
